@@ -1,0 +1,7 @@
+name: 'Commerce NGenius'
+type: module
+description: 'Integrates N-Genius into the drupal commerce payment system'
+core_version_requirement: '^8 || ^9'
+package: 'Commerce'
+dependencies:
+  - commerce:commerce_payment

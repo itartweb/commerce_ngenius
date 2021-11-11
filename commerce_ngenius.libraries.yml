@@ -1,0 +1,5 @@
+iframe:
+  version: VERSION
+  js:
+    https://paypage-uat.ngenius-payments.com/hosted-sessions/sdk.js: { type: external, minified: true }
+    js/iframe.js: {}

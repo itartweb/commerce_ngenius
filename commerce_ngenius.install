@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * @file
+ * Contains install and update functions for Commerce NGenius module.
+ */
+
+use Drupal\Core\Field\BaseFieldDefinition;
+
+/**
+ * Implements hook_install().
+ */
+function commerce_ngenius_install() {
+  $entity_type = \Drupal::service('entity_type.manager')->getDefinition('commerce_payment');
+  \Drupal::service('entity.definition_update_manager')->updateEntityType($entity_type);
+  $entity_type = \Drupal::service('entity_type.manager')->getDefinition('commerce_order');
+  \Drupal::service('entity.definition_update_manager')->updateEntityType($entity_type);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function commerce_ngenius_uninstall() {
+  $entity_type = \Drupal::service('entity_type.manager')->getDefinition('commerce_payment');
+  \Drupal::service('entity.definition_update_manager')->updateEntityType($entity_type);
+  $entity_type = \Drupal::service('entity_type.manager')->getDefinition('commerce_order');
+  \Drupal::service('entity.definition_update_manager')->updateEntityType($entity_type);
+}
+
+/**
+ * Set installed schema version.
+ */
+function commerce_ngenius_update_8001() {
+  // Reset the schema version, so our update hooks can be processed after installation.
+  drupal_set_installed_schema_version('commerce_ngenius', '8000');
+}
+
+/**
+ * Set "remote_session_id" base field to the commerce_order.
+ */
+function commerce_ngenius_update_8004() {
+  $field = BaseFieldDefinition::create('string')
+    ->setLabel(t('Session ID remote'))
+    ->setReadOnly(TRUE);
+
+  \Drupal::entityDefinitionUpdateManager()
+    ->installFieldStorageDefinition('remote_session_id', 'commerce_order', 'commerce_order', $field);
+}
+
+/**
+ * Set "remote_payment_response" base field to the commerce_order.
+ */
+function commerce_ngenius_update_8005() {
+  $field = BaseFieldDefinition::create('string_long')
+    ->setLabel(t('Payment Response (remote)'))
+    ->setReadOnly(TRUE);
+
+  \Drupal::entityDefinitionUpdateManager()
+    ->installFieldStorageDefinition('remote_payment_response', 'commerce_order', 'commerce_order', $field);
+}

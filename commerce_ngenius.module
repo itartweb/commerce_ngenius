@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * @file
+ * Contains commerce_ngenius.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+
+/**
+ * Implements hook_help().
+ */
+function commerce_ngenius_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the donate_checkout_flow module.
+    case 'help.page.commerce_n_genius':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Integrates ngenius into the drupal commerce payment system') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function commerce_ngenius_entity_base_field_info(EntityTypeInterface $entity_type) {
+  $fields = array();
+
+  if ($entity_type->id() === 'commerce_order') {
+    $fields['remote_session_id'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Session ID (remote)'))
+      ->setReadOnly(TRUE);
+  }
+  if ($entity_type->id() === 'commerce_order') {
+    $fields['remote_payment_response'] = BaseFieldDefinition::create('string_long')
+      ->setLabel(t('Payment Response (remote)'))
+      ->setReadOnly(TRUE);
+  }
+
+  return $fields;
+}

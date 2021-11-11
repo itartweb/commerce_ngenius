@@ -1,0 +1,25 @@
+commerce_ngenius.session_id:
+  path: '/commerce_ngenius/session_id/{commerce_order}'
+  defaults:
+    _controller: '\Drupal\commerce_ngenius\Controller\NgeniusController::saveSessionId'
+  methods: [POST]
+  requirements:
+    _custom_access: '\Drupal\commerce_checkout\Controller\CheckoutController::checkAccess'
+    _module_dependencies: commerce_checkout
+  options:
+    parameters:
+      commerce_order:
+        type: entity:commerce_order
+
+commerce_ngenius.check_payment:
+  path: '/commerce_ngenius/check_payment/{commerce_order}'
+  defaults:
+    _controller: '\Drupal\commerce_ngenius\Controller\NgeniusController::checkPayment'
+  methods: [POST]
+  requirements:
+    _custom_access: '\Drupal\commerce_checkout\Controller\CheckoutController::checkAccess'
+    _module_dependencies: commerce_checkout
+  options:
+    parameters:
+      commerce_order:
+        type: entity:commerce_order
